@@ -14,73 +14,66 @@ bool startsWith(const std::string& str, const std::string& prefix) {
 
 
 void MarkdownParser::ValidateMarkdown(const std::string& markdownText) {
-    
+   
+
+    // Передбачається, що handlers — це колекція обробників розмітки
+
     std::vector<std::pair<std::string, std::regex>> patterns;
     for (const auto& handler : handlers) {
+        
         patterns.emplace_back(handler->GetName(), std::regex(handler->GetOpenTagPattern() + "(.*?)" + handler->GetCloseTagPattern()));
     }
 
     std::map<size_t, std::string> positions; // Зберігає позиції тегів і їх типи
+    std::vector<std::pair<std::string, size_t>> tagsVector; // Вектор для відстеження відкритих тегів
 
+    // Збір позицій відкриття та закриття тегів
     for (const auto& pattern : patterns) {
         auto words_begin = std::sregex_iterator(markdownText.begin(), markdownText.end(), pattern.second);
-        size_t lastMatchEnd = 0; // Додано для запобігання застряганню в циклі
+        size_t lastMatchEnd = 0;
 
         for (std::sregex_iterator i = words_begin; i != std::sregex_iterator(); ++i) {
             std::smatch match = *i;
             size_t matchStart = match.position();
             size_t matchEnd = matchStart + match.length();
 
-            // Перевірка, чи просуваємося ми вперед, щоб уникнути застрягання
             if (matchStart < lastMatchEnd || matchEnd <= lastMatchEnd) {
-                continue; // Пропускаємо цю ітерацію, якщо вона не просуває нас вперед
+                continue;
             }
-            lastMatchEnd = matchEnd; // Оновлюємо останню позицію закінчення відповідності
+            lastMatchEnd = matchEnd;
 
             positions[matchStart] = "open_" + pattern.first;
             positions[matchEnd] = "close_" + pattern.first;
+
+            std::cout << "Знайдено відповідність: " << pattern.first << " від " << matchStart << " до " << matchEnd << std::endl;
         }
     }
 
-    std::string lastOpen;
+    std::string lastOpenTag;
     for (const auto& pos : positions) {
+        std::cout << "Обробка позиції: " << pos.first << ", тип: " << pos.second << std::endl;
+
         if (startsWith(pos.second, "open_")) {
-            if (!lastOpen.empty()) {
-                throw std::runtime_error("Неприпустима вкладена розмітка: " + lastOpen + " всередині " + pos.second.substr(5));
+            if (!lastOpenTag.empty()) {
+                std::cout << "Неприпустима вкладена розмітка: " << lastOpenTag << " всередині " << pos.second.substr(5) << std::endl;
+                throw std::runtime_error("Неприпустима вкладена розмітка: " + lastOpenTag + " всередині " + pos.second.substr(5));
             }
-            lastOpen = pos.second.substr(5);
+            lastOpenTag = pos.second.substr(5);
+            tagsVector.push_back({ lastOpenTag, pos.first }); // Додаємо відкриття тегу до вектора
+            std::cout << "Додано до вектора відкриття тегу: " << lastOpenTag << std::endl;
         }
         else if (startsWith(pos.second, "close_")) {
-            if (lastOpen != pos.second.substr(6)) {
-                throw std::runtime_error("Неприпустима вкладена розмітка: " + lastOpen + " закривається перед " + pos.second.substr(6));
+            if (tagsVector.empty() || tagsVector.back().first != pos.second.substr(6)) {
+                std::cout << "Розмітка не відповідає: відкритий тег " << (tagsVector.empty() ? "відсутній" : tagsVector.back().first) << ", але спроба закрити " << pos.second.substr(6) << std::endl;
+                throw std::runtime_error("Розмітка не відповідає: відкритий тег не відповідає закритому тегу " + pos.second.substr(6));
             }
-            lastOpen.clear();
+            tagsVector.pop_back(); // Видаляємо останній відкритий тег, якщо він відповідає закритому
+            std::cout << "Видалено з вектора останній відкритий тег" << std::endl;
+            lastOpenTag.clear(); // Очищаємо lastOpenTag після закриття тегу
         }
     }
-    
-  
 
 
-    /*
-    for (const auto& handler : handlers) {
-        // Отримуємо паттерни відкриття та закриття для кожного обробника
-        auto openPattern = handler->GetOpenTagPattern();
-        auto closePattern = handler->GetCloseTagPattern();
-
-        // Складаємо regex паттерн, який шукатиме відповідні теги
-        std::string regexPattern = openPattern + "(.*?)" + closePattern;
-        std::regex pattern(regexPattern);
-
-        auto words_begin = std::sregex_iterator(markdownText.begin(), markdownText.end(), pattern);
-        auto words_end = std::sregex_iterator();
-
-        int count = std::distance(words_begin, words_end);
-        if (count % 2 != 0) { // Якщо кількість відкритих не дорівнює кількості закритих
-            throw std::runtime_error("Незакритий тег розмітки виявлено у шаблоні: " + openPattern);
-        }
-    }
-    */
-    // Тут можна додати додаткові універсальні перевірки, якщо потрібно
 }
 
 std::string MarkdownParser::ParsePreformatted(const std::string& text) {
@@ -118,8 +111,9 @@ std::string MarkdownParser::ParsePreformatted(const std::string& text) {
 
 std::string MarkdownParser::Parse(const std::string& markdownText) {
     std::string result = markdownText;
+    result = ParsePreformatted(result);
     ValidateMarkdown(result);
-    //result = ParsePreformatted(result);
+
 
     for (auto& handler : handlers) {
         result = handler->Handle(result);
