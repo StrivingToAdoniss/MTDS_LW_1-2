@@ -5,21 +5,21 @@ UniversalMarkdownHandler::UniversalMarkdownHandler(std::string name, std::string
     htmlOpenTag(std::move(htmlOpen)), htmlCloseTag(std::move(htmlClose)) {}
 
 std::string UniversalMarkdownHandler::Handle(const std::string& text) {
-    // Шаблон для знаходження правильно сформованої розмітки
+    // РЁР°Р±Р»РѕРЅ РґР»СЏ Р·РЅР°С…РѕРґР¶РµРЅРЅСЏ РїСЂР°РІРёР»СЊРЅРѕ СЃС„РѕСЂРјРѕРІР°РЅРѕС— СЂРѕР·РјС–С‚РєРё
     std::regex fullPattern(openTag + "(.+?)" + closeTag);
     std::string replaced = std::regex_replace(text, fullPattern, htmlOpenTag + "$1" + htmlCloseTag);
 
-    // Шаблон для знаходження незакритих тегів
+    // РЁР°Р±Р»РѕРЅ РґР»СЏ Р·РЅР°С…РѕРґР¶РµРЅРЅСЏ РЅРµР·Р°РєСЂРёС‚РёС… С‚РµРіС–РІ
     std::regex openTagPattern(openTag + "([^" + closeTag + "]+)$");
     std::smatch matches;
     std::string result = replaced;
 
-    // Пошук та обробка незакритих тегів
+    // РџРѕС€СѓРє С‚Р° РѕР±СЂРѕР±РєР° РЅРµР·Р°РєСЂРёС‚РёС… С‚РµРіС–РІ
     std::string::const_iterator searchStart(replaced.cbegin());
     while (std::regex_search(searchStart, replaced.cend(), matches, openTagPattern)) {
         std::string unmatched = matches[0];
-        // Викидання помилки з інформацією про незакритий тег
-        throw std::runtime_error("Незакритий тег: " + unmatched + " на позиції " + std::to_string(matches.position(0)));
+        // Р’РёРєРёРґР°РЅРЅСЏ РїРѕРјРёР»РєРё Р· С–РЅС„РѕСЂРјР°С†С–С”СЋ РїСЂРѕ РЅРµР·Р°РєСЂРёС‚РёР№ С‚РµРі
+        throw std::runtime_error("РќРµР·Р°РєСЂРёС‚РёР№ С‚РµРі: " + unmatched + " РЅР° РїРѕР·РёС†С–С— " + std::to_string(matches.position(0)));
     }
 
     return result;

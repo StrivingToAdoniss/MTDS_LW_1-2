@@ -3,11 +3,11 @@
 #include <sstream>
 #include <stdexcept>
 
-// Реалізація методу для читання файлу
+// Р РµР°Р»С–Р·Р°С†С–СЏ РјРµС‚РѕРґСѓ РґР»СЏ С‡РёС‚Р°РЅРЅСЏ С„Р°Р№Р»Сѓ
 std::string FileManager::ReadFile(const std::string& filePath) {
     std::ifstream file(filePath);
     if (!file.is_open()) {
-        throw std::runtime_error("Не вдалося відкрити файл для читання: " + filePath);
+        throw std::runtime_error("РќРµ РІРґР°Р»РѕСЃСЏ РІС–РґРєСЂРёС‚Рё С„Р°Р№Р» РґР»СЏ С‡РёС‚Р°РЅРЅСЏ: " + filePath);
     }
 
     std::stringstream buffer;
@@ -17,11 +17,11 @@ std::string FileManager::ReadFile(const std::string& filePath) {
     return buffer.str();
 }
 
-// Реалізація методу для запису у файл
+// Р РµР°Р»С–Р·Р°С†С–СЏ РјРµС‚РѕРґСѓ РґР»СЏ Р·Р°РїРёСЃСѓ Сѓ С„Р°Р№Р»
 void FileManager::WriteFile(const std::string& filePath, const std::string& content) {
     std::ofstream file(filePath);
     if (!file.is_open()) {
-        throw std::runtime_error("Не вдалося відкрити файл для запису: " + filePath);
+        throw std::runtime_error("РќРµ РІРґР°Р»РѕСЃСЏ РІС–РґРєСЂРёС‚Рё С„Р°Р№Р» РґР»СЏ Р·Р°РїРёСЃСѓ: " + filePath);
     }
 
     file << content;

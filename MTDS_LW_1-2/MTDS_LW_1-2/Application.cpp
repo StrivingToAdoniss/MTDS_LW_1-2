@@ -7,7 +7,7 @@ void Application::Run(int argc, char* argv[]) {
     std::string outputFilePath;
 
     if (argc < 2) {
-        std::cerr << "Âèêîðèñòàííÿ: " << argv[0] << " <input file> [--out <output file>]\n";
+        std::cerr << "Ð’Ð¸ÐºÐ¾Ñ€Ð¸ÑÑ‚Ð°Ð½Ð½Ñ: " << argv[0] << " <input file> [--out <output file>]\n";
         exit(EXIT_FAILURE);
     }
 
@@ -20,7 +20,7 @@ void Application::Run(int argc, char* argv[]) {
                 outputFilePath = argv[++i];
             }
             else {
-                std::cerr << "Àðãóìåíò --out âèìàãàº âêàç³âêè øëÿõó äî âèõ³äíîãî ôàéëó.\n";
+                std::cerr << "ÐÑ€Ð³ÑƒÐ¼ÐµÐ½Ñ‚ --out Ð²Ð¸Ð¼Ð°Ð³Ð°Ñ” Ð²ÐºÐ°Ð·Ñ–Ð²ÐºÐ¸ ÑˆÐ»ÑÑ…Ñƒ Ð´Ð¾ Ð²Ð¸Ñ…Ñ–Ð´Ð½Ð¾Ð³Ð¾ Ñ„Ð°Ð¹Ð»Ñƒ.\n";
                 exit(EXIT_FAILURE);
             }
         }

@@ -1,9 +1,9 @@
 #include "MarkdownParser.h"
 
 MarkdownParser::MarkdownParser() {
-    handlers.push_back(std::make_unique<UniversalMarkdownHandler>("bold", "\\*\\*", "\\*\\*", "<strong>", "</strong>")); // для жирного тексту
-    handlers.push_back(std::make_unique<UniversalMarkdownHandler>("italic", "_", "_", "<em>", "</em>")); // для курсиву
-    handlers.push_back(std::make_unique<UniversalMarkdownHandler>("monospaced", "`", "`", "<code>", "</code>")); // для моноширинного тексту
+    handlers.push_back(std::make_unique<UniversalMarkdownHandler>("bold", "\\*\\*", "\\*\\*", "<strong>", "</strong>")); // РґР»СЏ Р¶РёСЂРЅРѕРіРѕ С‚РµРєСЃС‚Сѓ
+    handlers.push_back(std::make_unique<UniversalMarkdownHandler>("italic", "_", "_", "<em>", "</em>")); // РґР»СЏ РєСѓСЂСЃРёРІСѓ
+    handlers.push_back(std::make_unique<UniversalMarkdownHandler>("monospaced", "`", "`", "<code>", "</code>")); // РґР»СЏ РјРѕРЅРѕС€РёСЂРёРЅРЅРѕРіРѕ С‚РµРєСЃС‚Сѓ
     
 }
 
@@ -16,7 +16,7 @@ bool startsWith(const std::string& str, const std::string& prefix) {
 void MarkdownParser::ValidateMarkdown(const std::string& markdownText) {
    
 
-    // Передбачається, що handlers — це колекція обробників розмітки
+    // РџРµСЂРµРґР±Р°С‡Р°С”С‚СЊСЃСЏ, С‰Рѕ handlers вЂ” С†Рµ РєРѕР»РµРєС†С–СЏ РѕР±СЂРѕР±РЅРёРєС–РІ СЂРѕР·РјС–С‚РєРё
 
     std::vector<std::pair<std::string, std::regex>> patterns;
     for (const auto& handler : handlers) {
@@ -24,10 +24,10 @@ void MarkdownParser::ValidateMarkdown(const std::string& markdownText) {
         patterns.emplace_back(handler->GetName(), std::regex(handler->GetOpenTagPattern() + "(.*?)" + handler->GetCloseTagPattern()));
     }
 
-    std::map<size_t, std::string> positions; // Зберігає позиції тегів і їх типи
-    std::vector<std::pair<std::string, size_t>> tagsVector; // Вектор для відстеження відкритих тегів
+    std::map<size_t, std::string> positions; // Р—Р±РµСЂС–РіР°С” РїРѕР·РёС†С–С— С‚РµРіС–РІ С– С—С… С‚РёРїРё
+    std::vector<std::pair<std::string, size_t>> tagsVector; // Р’РµРєС‚РѕСЂ РґР»СЏ РІС–РґСЃС‚РµР¶РµРЅРЅСЏ РІС–РґРєСЂРёС‚РёС… С‚РµРіС–РІ
 
-    // Збір позицій відкриття та закриття тегів
+    // Р—Р±С–СЂ РїРѕР·РёС†С–Р№ РІС–РґРєСЂРёС‚С‚СЏ С‚Р° Р·Р°РєСЂРёС‚С‚СЏ С‚РµРіС–РІ
     for (const auto& pattern : patterns) {
         auto words_begin = std::sregex_iterator(markdownText.begin(), markdownText.end(), pattern.second);
         size_t lastMatchEnd = 0;
@@ -45,31 +45,31 @@ void MarkdownParser::ValidateMarkdown(const std::string& markdownText) {
             positions[matchStart] = "open_" + pattern.first;
             positions[matchEnd] = "close_" + pattern.first;
 
-            std::cout << "Знайдено відповідність: " << pattern.first << " від " << matchStart << " до " << matchEnd << std::endl;
+            std::cout << "Р—РЅР°Р№РґРµРЅРѕ РІС–РґРїРѕРІС–РґРЅС–СЃС‚СЊ: " << pattern.first << " РІС–Рґ " << matchStart << " РґРѕ " << matchEnd << std::endl;
         }
     }
 
     std::string lastOpenTag;
     for (const auto& pos : positions) {
-        std::cout << "Обробка позиції: " << pos.first << ", тип: " << pos.second << std::endl;
+        std::cout << "РћР±СЂРѕР±РєР° РїРѕР·РёС†С–С—: " << pos.first << ", С‚РёРї: " << pos.second << std::endl;
 
         if (startsWith(pos.second, "open_")) {
             if (!lastOpenTag.empty()) {
-                std::cout << "Неприпустима вкладена розмітка: " << lastOpenTag << " всередині " << pos.second.substr(5) << std::endl;
-                throw std::runtime_error("Неприпустима вкладена розмітка: " + lastOpenTag + " всередині " + pos.second.substr(5));
+                std::cout << "РќРµРїСЂРёРїСѓСЃС‚РёРјР° РІРєР»Р°РґРµРЅР° СЂРѕР·РјС–С‚РєР°: " << lastOpenTag << " РІСЃРµСЂРµРґРёРЅС– " << pos.second.substr(5) << std::endl;
+                throw std::runtime_error("РќРµРїСЂРёРїСѓСЃС‚РёРјР° РІРєР»Р°РґРµРЅР° СЂРѕР·РјС–С‚РєР°: " + lastOpenTag + " РІСЃРµСЂРµРґРёРЅС– " + pos.second.substr(5));
             }
             lastOpenTag = pos.second.substr(5);
-            tagsVector.push_back({ lastOpenTag, pos.first }); // Додаємо відкриття тегу до вектора
-            std::cout << "Додано до вектора відкриття тегу: " << lastOpenTag << std::endl;
+            tagsVector.push_back({ lastOpenTag, pos.first }); // Р”РѕРґР°С”РјРѕ РІС–РґРєСЂРёС‚С‚СЏ С‚РµРіСѓ РґРѕ РІРµРєС‚РѕСЂР°
+            std::cout << "Р”РѕРґР°РЅРѕ РґРѕ РІРµРєС‚РѕСЂР° РІС–РґРєСЂРёС‚С‚СЏ С‚РµРіСѓ: " << lastOpenTag << std::endl;
         }
         else if (startsWith(pos.second, "close_")) {
             if (tagsVector.empty() || tagsVector.back().first != pos.second.substr(6)) {
-                std::cout << "Розмітка не відповідає: відкритий тег " << (tagsVector.empty() ? "відсутній" : tagsVector.back().first) << ", але спроба закрити " << pos.second.substr(6) << std::endl;
-                throw std::runtime_error("Розмітка не відповідає: відкритий тег не відповідає закритому тегу " + pos.second.substr(6));
+                std::cout << "Р РѕР·РјС–С‚РєР° РЅРµ РІС–РґРїРѕРІС–РґР°С”: РІС–РґРєСЂРёС‚РёР№ С‚РµРі " << (tagsVector.empty() ? "РІС–РґСЃСѓС‚РЅС–Р№" : tagsVector.back().first) << ", Р°Р»Рµ СЃРїСЂРѕР±Р° Р·Р°РєСЂРёС‚Рё " << pos.second.substr(6) << std::endl;
+                throw std::runtime_error("Р РѕР·РјС–С‚РєР° РЅРµ РІС–РґРїРѕРІС–РґР°С”: РІС–РґРєСЂРёС‚РёР№ С‚РµРі РЅРµ РІС–РґРїРѕРІС–РґР°С” Р·Р°РєСЂРёС‚РѕРјСѓ С‚РµРіСѓ " + pos.second.substr(6));
             }
-            tagsVector.pop_back(); // Видаляємо останній відкритий тег, якщо він відповідає закритому
-            std::cout << "Видалено з вектора останній відкритий тег" << std::endl;
-            lastOpenTag.clear(); // Очищаємо lastOpenTag після закриття тегу
+            tagsVector.pop_back(); // Р’РёРґР°Р»СЏС”РјРѕ РѕСЃС‚Р°РЅРЅС–Р№ РІС–РґРєСЂРёС‚РёР№ С‚РµРі, СЏРєС‰Рѕ РІС–РЅ РІС–РґРїРѕРІС–РґР°С” Р·Р°РєСЂРёС‚РѕРјСѓ
+            std::cout << "Р’РёРґР°Р»РµРЅРѕ Р· РІРµРєС‚РѕСЂР° РѕСЃС‚Р°РЅРЅС–Р№ РІС–РґРєСЂРёС‚РёР№ С‚РµРі" << std::endl;
+            lastOpenTag.clear(); // РћС‡РёС‰Р°С”РјРѕ lastOpenTag РїС–СЃР»СЏ Р·Р°РєСЂРёС‚С‚СЏ С‚РµРіСѓ
         }
     }
 
@@ -81,21 +81,21 @@ std::string MarkdownParser::ParsePreformatted(const std::string& text) {
     std::string processedText = text;
     std::smatch matches;
 
-    // Унікальний ідентифікатор для заміни блоків коду
+    // РЈРЅС–РєР°Р»СЊРЅРёР№ С–РґРµРЅС‚РёС„С–РєР°С‚РѕСЂ РґР»СЏ Р·Р°РјС–РЅРё Р±Р»РѕРєС–РІ РєРѕРґСѓ
     std::string placeholderPrefix = "PRE_FORMATTED_BLOCK_";
     int counter = 0;
     std::vector<std::string> preformattedBlocks;
 
-    // Знайти всі блоки преформатованого тексту та замінити їх на унікальні плейсхолдери
+    // Р—РЅР°Р№С‚Рё РІСЃС– Р±Р»РѕРєРё РїСЂРµС„РѕСЂРјР°С‚РѕРІР°РЅРѕРіРѕ С‚РµРєСЃС‚Сѓ С‚Р° Р·Р°РјС–РЅРёС‚Рё С—С… РЅР° СѓРЅС–РєР°Р»СЊРЅС– РїР»РµР№СЃС…РѕР»РґРµСЂРё
     while (std::regex_search(processedText, matches, preformattedPattern)) {
         std::string placeholder = placeholderPrefix + std::to_string(counter++);
         preformattedBlocks.push_back(matches[1].str());
         processedText = processedText.replace(matches.position(0), matches.length(0), placeholder);
     }
 
-    // Тут можна обробити текст за допомогою інших обробників Markdown...
+    // РўСѓС‚ РјРѕР¶РЅР° РѕР±СЂРѕР±РёС‚Рё С‚РµРєСЃС‚ Р·Р° РґРѕРїРѕРјРѕРіРѕСЋ С–РЅС€РёС… РѕР±СЂРѕР±РЅРёРєС–РІ Markdown...
 
-    // Відновити блоки преформатованого тексту на місце плейсхолдерів
+    // Р’С–РґРЅРѕРІРёС‚Рё Р±Р»РѕРєРё РїСЂРµС„РѕСЂРјР°С‚РѕРІР°РЅРѕРіРѕ С‚РµРєСЃС‚Сѓ РЅР° РјС–СЃС†Рµ РїР»РµР№СЃС…РѕР»РґРµСЂС–РІ
     for (int i = 0; i < preformattedBlocks.size(); ++i) {
         std::string placeholder = placeholderPrefix + std::to_string(i);
         std::string toReplace = "<pre>" + preformattedBlocks[i] + "</pre>";
