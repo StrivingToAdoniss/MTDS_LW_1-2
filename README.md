@@ -15,7 +15,7 @@ msbuild Ім'яФайлуРішення.sln /p:Configuration=Release /p:Platform
 Програма запускається та налаштовується через cmd чи PowerShell. Програма має два режими роботи: вивід у консоль(достатнього просто вказати шлях до вхідного файлу) та створення вихідного файлу(другим аргументом потрібно ввести ім'я вихідного файлу у форматі:[--out <output file>]).
 
 ### Вказаня на revert коміт
-приклад
+Унікальний ID revert коміту: 0ba7229eb85ef9a3a843ab9796d20cb967f1e8d7
 
 ## ENG
 The laboratory work consists of a console application written in C++ for converting text markup from the **Markdown** input format to the **HTML** format for output to the console or an output file (within the scope of the laboratory work, the number of markup patterns is limited).
@@ -31,5 +31,4 @@ msbuild SolutionFileName.sln /p:Configuration=Release /p:Platform="Any CPU"
 The program is launched and configured via **cmd** or **PowerShell**. The program has two modes of operation: output to the console (it's enough to just specify the path to the input file) and creating an output file (the name of the output file in the format: [--out <output file>] needs to be entered as the second argument).
 
 ### Usage of revert-commit
-
-examlpe
+Unique revert-commit ID: 0ba7229eb85ef9a3a843ab9796d20cb967f1e8d7
