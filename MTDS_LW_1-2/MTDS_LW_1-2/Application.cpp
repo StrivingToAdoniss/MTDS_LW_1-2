@@ -1,6 +1,8 @@
 #include "Application.h"
 #include <iostream>
 #include <windows.h>
+#include "gtest/gtest.h"
+
 
 
 Application::Application() {}
@@ -10,7 +12,7 @@ void Application::Run(int argc, char* argv[]) {
     std::string outputFilePath;
 
     if (argc < 2) {
-        std::cerr << "Використання: " << argv[0] << " <input file> [--out <output file>]\n";
+        std::cerr << "Using: " << argv[0] << " <input file> [--out <output file>]\n";
         exit(EXIT_FAILURE);
     }
 
@@ -36,7 +38,7 @@ void Application::Run(int argc, char* argv[]) {
                 outputFilePath = argv[++i];
             }
             else {
-                std::cerr << "Аргумент --out вимагає вказівки шляху до вихідного файлу.\n";
+                std::cerr << "The --out argument requires the path to the output file.\n";
                 exit(EXIT_FAILURE);
             }
         }
@@ -62,6 +64,8 @@ void Application::Run(int argc, char* argv[]) {
 int main(int argc, char* argv[]) {
     SetConsoleOutputCP(CP_UTF8);
     std::locale::global(std::locale(""));
+    ::testing::InitGoogleTest(&argc, argv);
+    RUN_ALL_TESTS();
     Application app;
     app.Run(argc, argv);
     return 0;

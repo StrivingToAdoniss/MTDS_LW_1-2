@@ -19,7 +19,7 @@ std::string UniversalMarkdownHandler::Handle(const std::string& text) {
     while (std::regex_search(searchStart, replaced.cend(), matches, openTagPattern)) {
         std::string unmatched = matches[0];
         // Викидання помилки з інформацією про незакритий тег
-        throw std::runtime_error("Незакритий тег: " + unmatched + " на позиції " + std::to_string(matches.position(0)));
+        throw std::runtime_error("Unclosed tag: " + unmatched + " at position " + std::to_string(matches.position(0)));
     }
 
     return result;

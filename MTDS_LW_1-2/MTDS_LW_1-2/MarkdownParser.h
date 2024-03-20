@@ -11,13 +11,13 @@
 
 class MarkdownParser {
     std::vector<std::unique_ptr<UniversalMarkdownHandler>> handlers;
-    std::string ParsePreformatted(const std::string& text);
     std::string format;
     void ValidateMarkdown(const std::string& markdownText);
 public:
     MarkdownParser();
     MarkdownParser(std::string _format);
     std::string Parse(const std::string& markdownText);
+    std::string ParsePreformatted(const std::string& text);
     void setFormat(std::string _format);
     std::string getFormat();
 

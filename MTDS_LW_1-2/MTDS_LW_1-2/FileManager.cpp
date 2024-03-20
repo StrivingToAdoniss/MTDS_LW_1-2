@@ -7,7 +7,7 @@
 std::string FileManager::ReadFile(const std::string& filePath) {
     std::ifstream file(filePath);
     if (!file.is_open()) {
-        throw std::runtime_error("Не вдалося відкрити файл для читання: " + filePath);
+        throw std::runtime_error("Could not open file for reading: " + filePath);
     }
 
     std::stringstream buffer;
@@ -21,7 +21,7 @@ std::string FileManager::ReadFile(const std::string& filePath) {
 void FileManager::WriteFile(const std::string& filePath, const std::string& content) {
     std::ofstream file(filePath);
     if (!file.is_open()) {
-        throw std::runtime_error("Не вдалося відкрити файл для запису: " + filePath);
+        throw std::runtime_error("Could not open file for writing: " + filePath);
     }
 
     file << content;

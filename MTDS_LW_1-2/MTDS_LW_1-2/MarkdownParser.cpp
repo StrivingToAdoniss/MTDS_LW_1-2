@@ -75,30 +75,30 @@ void MarkdownParser::ValidateMarkdown(const std::string& markdownText) {
             positions[matchStart] = "open_" + pattern.first;
             positions[matchEnd] = "close_" + pattern.first;
 
-            std::cout << "Знайдено відповідність: " << pattern.first << " від " << matchStart << " до " << matchEnd << std::endl;
+            //std::cout << "Correspondence found: " << pattern.first << " from " << matchStart << " to " << matchEnd << std::endl;
         }
     }
 
     std::string lastOpenTag;
     for (const auto& pos : positions) {
-        std::cout << "Обробка позиції: " << pos.first << ", тип: " << pos.second << std::endl;
+        //std::cout << "Position processing: " << pos.first << ", type: " << pos.second << std::endl;
 
         if (startsWith(pos.second, "open_")) {
             if (!lastOpenTag.empty()) {
-                std::cout << "Неприпустима вкладена розмітка: " << lastOpenTag << " всередині " << pos.second.substr(5) << std::endl;
-                throw std::runtime_error("Неприпустима вкладена розмітка: " + lastOpenTag + " всередині " + pos.second.substr(5));
+                //std::cout << "Invalid nested markup: " << lastOpenTag << " inside of " << pos.second.substr(5) << std::endl;
+                throw std::runtime_error("Invalid nested markup: " + lastOpenTag + " inside of " + pos.second.substr(5));
             }
             lastOpenTag = pos.second.substr(5);
             tagsVector.push_back({ lastOpenTag, pos.first }); // Додаємо відкриття тегу до вектора
-            std::cout << "Додано до вектора відкриття тегу: " << lastOpenTag << std::endl;
+            //std::cout << "Added to open tag vector " << lastOpenTag << std::endl;
         }
         else if (startsWith(pos.second, "close_")) {
             if (tagsVector.empty() || tagsVector.back().first != pos.second.substr(6)) {
-                std::cout << "Розмітка не відповідає: відкритий тег " << (tagsVector.empty() ? "відсутній" : tagsVector.back().first) << ", але спроба закрити " << pos.second.substr(6) << std::endl;
-                throw std::runtime_error("Розмітка не відповідає: відкритий тег не відповідає закритому тегу " + pos.second.substr(6));
+               //std::cout << "Markup does not match: open tag " << (tagsVector.empty() ? "missing" : tagsVector.back().first) << ", but an attempt to close " << pos.second.substr(6) << std::endl;
+                throw std::runtime_error("Markup Mismatch: An open tag does not match a closed tag " + pos.second.substr(6));
             }
             tagsVector.pop_back(); // Видаляємо останній відкритий тег, якщо він відповідає закритому
-            std::cout << "Видалено з вектора останній відкритий тег" << std::endl;
+            //std::cout << "The last open tag has been deleted from the vector" << std::endl;
             lastOpenTag.clear(); // Очищаємо lastOpenTag після закриття тегу
         }
     }
