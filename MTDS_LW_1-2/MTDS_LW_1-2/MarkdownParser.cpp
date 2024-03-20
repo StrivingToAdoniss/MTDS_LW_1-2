@@ -1,11 +1,41 @@
 #include "MarkdownParser.h"
 
+
 MarkdownParser::MarkdownParser() {
-    handlers.push_back(std::make_unique<UniversalMarkdownHandler>("bold", "\\*\\*", "\\*\\*", "<strong>", "</strong>")); // для жирного тексту
-    handlers.push_back(std::make_unique<UniversalMarkdownHandler>("italic", "_", "_", "<em>", "</em>")); // для курсиву
-    handlers.push_back(std::make_unique<UniversalMarkdownHandler>("monospaced", "`", "`", "<code>", "</code>")); // для моноширинного тексту
+
+}
+
+MarkdownParser::MarkdownParser(std::string _format) {
+
+    setFormat(_format);
     
 }
+
+void MarkdownParser::setFormat(std::string _format)
+{
+    format = _format;
+    handlers.clear();
+
+    if (format == "HTML")
+    {
+        handlers.push_back(std::make_unique<UniversalMarkdownHandler>("bold", "\\*\\*", "\\*\\*", "<strong>", "</strong>")); // для жирного тексту
+        handlers.push_back(std::make_unique<UniversalMarkdownHandler>("italic", "_", "_", "<em>", "</em>")); // для курсиву
+        handlers.push_back(std::make_unique<UniversalMarkdownHandler>("monospaced", "`", "`", "<code>", "</code>")); // для моноширинного тексту
+    }
+    else if (format == "ASCI")
+    {
+        handlers.push_back(std::make_unique<UniversalMarkdownHandler>("bold", "\\*\\*", "\\*\\*", "\033[1m", "\033[0m")); // для жирного тексту
+        handlers.push_back(std::make_unique<UniversalMarkdownHandler>("italic", "_", "_", "\033[3m", "\033[0m")); // для курсиву
+        handlers.push_back(std::make_unique<UniversalMarkdownHandler>("monospaced", "`", "`", "\033[7m", "\033[0m")); // для моноширинного тексту
+    }
+
+}
+
+std::string MarkdownParser::getFormat()
+{
+    return format;
+}
+
 
 bool startsWith(const std::string& str, const std::string& prefix) {
     return str.size() >= prefix.size() &&
@@ -98,7 +128,17 @@ std::string MarkdownParser::ParsePreformatted(const std::string& text) {
     // Відновити блоки преформатованого тексту на місце плейсхолдерів
     for (int i = 0; i < preformattedBlocks.size(); ++i) {
         std::string placeholder = placeholderPrefix + std::to_string(i);
-        std::string toReplace = "<pre>" + preformattedBlocks[i] + "</pre>";
+        
+        std::string toReplace;
+        if (format == "ASCI") 
+        {
+            toReplace = "\033[7m" + preformattedBlocks[i] + "\033[27m";
+        }
+        else if(format == "HTML")
+        {
+            toReplace = "<pre>" + preformattedBlocks[i] + "</pre>";
+        }
+
         size_t pos = processedText.find(placeholder);
         if (pos != std::string::npos) {
             processedText.replace(pos, placeholder.length(), toReplace);

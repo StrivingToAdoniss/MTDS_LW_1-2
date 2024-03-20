@@ -2,6 +2,9 @@
 #include <iostream>
 #include <windows.h>
 
+
+Application::Application() {}
+
 void Application::Run(int argc, char* argv[]) {
     std::string inputFilePath;
     std::string outputFilePath;
@@ -15,7 +18,20 @@ void Application::Run(int argc, char* argv[]) {
 
     for (int i = 2; i < argc; ++i) {
         std::string arg = argv[i];
-        if (arg == "--out") {
+
+        if (arg.substr(0, 9) == "--format=") {
+            std::string format = arg.substr(9);
+            if (format != "HTML" && format != "ASCI") {
+                std::cerr << "Unknown format: " << format << ". Use 'HTML' or 'ASCI'.\n";
+                exit(EXIT_FAILURE);
+            }
+            else
+            {
+                parser.setFormat(format);
+            }
+        }
+
+        else if (arg == "--out") {
             if (i + 1 < argc) {
                 outputFilePath = argv[++i];
             }
@@ -24,6 +40,7 @@ void Application::Run(int argc, char* argv[]) {
                 exit(EXIT_FAILURE);
             }
         }
+       
     }
 
     try {

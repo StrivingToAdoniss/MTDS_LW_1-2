@@ -6,5 +6,6 @@
 class Application {
     MarkdownParser parser;
 public:
+    Application();
     void Run(int argc, char* argv[]);
 };
