@@ -33,7 +33,7 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>C:\Users\Горовий Олександр\Documents\GitHub\MTDS_LW_1-2\MTDS_LW_1-2\MTDS_LW_1-2;$(IncludePath)</IncludePath>
+    <IncludePath>..\MTDS_LW_1-2;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -96,8 +96,8 @@
       <SubSystem>Console</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <AdditionalDependencies>C:\Users\Горовий Олександр\Documents\GitHub\MTDS_LW_1-2\MTDS_LW_1-2\MTDS_LW_1-2\x64\Release\MarkdownParser.obj;C:\Users\Горовий Олександр\Documents\GitHub\MTDS_LW_1-2\MTDS_LW_1-2\MTDS_LW_1-2\x64\Release\UniversalMarkdownHandler.obj;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Users\Горовий Олександр\Documents\GitHub\MTDS_LW_1-2\MTDS_LW_1-2\MTDS_LW_1-2\x64\Release\UniversalMarkdownHandler.obj;C:\Users\Горовий Олександр\Documents\GitHub\MTDS_LW_1-2\MTDS_LW_1-2\MTDS_LW_1-2\x64\Release\MarkdownParser.obj;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>..\MTDS_LW_1-2\x64\Release\MarkdownParser.obj;..\MTDS_LW_1-2\x64\Release\UniversalMarkdownHandler.obj;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\MTDS_LW_1-2\x64\Release\UniversalMarkdownHandler.obj;..\MTDS_LW_1-2\x64\Release\MarkdownParser.obj;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
