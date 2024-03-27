@@ -64,8 +64,8 @@ void Application::Run(int argc, char* argv[]) {
 int main(int argc, char* argv[]) {
     SetConsoleOutputCP(CP_UTF8);
     std::locale::global(std::locale(""));
-    ::testing::InitGoogleTest(&argc, argv);
-    RUN_ALL_TESTS();
+    //::testing::InitGoogleTest(&argc, argv);
+    //RUN_ALL_TESTS();
     Application app;
     app.Run(argc, argv);
     return 0;

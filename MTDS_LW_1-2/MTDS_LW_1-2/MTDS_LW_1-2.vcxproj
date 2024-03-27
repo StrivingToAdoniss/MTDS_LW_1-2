@@ -136,10 +136,6 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="FileManager.cpp" />
     <ClCompile Include="MarkdownParser.cpp" />
-    <ClCompile Include="MarkdownParserConstructorTest.cpp" />
-    <ClCompile Include="MarkdownParserEdgeCasesTest.cpp" />
-    <ClCompile Include="MarkdownParserFormattingTest.cpp" />
-    <ClCompile Include="MarkdownParserIntegrationTest.cpp" />
     <ClCompile Include="UniversalMarkdownHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -147,6 +143,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMakeLists.txt" />
+    <Text Include="configure\about.txt.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

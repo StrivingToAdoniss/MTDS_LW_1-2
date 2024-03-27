@@ -5,6 +5,10 @@ VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MTDS_LW_1-2", "MTDS_LW_1-2\MTDS_LW_1-2.vcxproj", "{74F0ED18-BBBF-4B40-A600-F04873054940}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FAC5E219-8B85-48AF-A96C-72E5385E4959}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MTDS_test", "MTDS_test\MTDS_test.vcxproj", "{6C9C1C10-302A-4AF1-BEDA-6F7A76F74A02}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +25,14 @@ Global
 		{74F0ED18-BBBF-4B40-A600-F04873054940}.Release|x64.Build.0 = Release|x64
 		{74F0ED18-BBBF-4B40-A600-F04873054940}.Release|x86.ActiveCfg = Release|Win32
 		{74F0ED18-BBBF-4B40-A600-F04873054940}.Release|x86.Build.0 = Release|Win32
+		{6C9C1C10-302A-4AF1-BEDA-6F7A76F74A02}.Debug|x64.ActiveCfg = Debug|x64
+		{6C9C1C10-302A-4AF1-BEDA-6F7A76F74A02}.Debug|x64.Build.0 = Debug|x64
+		{6C9C1C10-302A-4AF1-BEDA-6F7A76F74A02}.Debug|x86.ActiveCfg = Debug|Win32
+		{6C9C1C10-302A-4AF1-BEDA-6F7A76F74A02}.Debug|x86.Build.0 = Debug|Win32
+		{6C9C1C10-302A-4AF1-BEDA-6F7A76F74A02}.Release|x64.ActiveCfg = Release|x64
+		{6C9C1C10-302A-4AF1-BEDA-6F7A76F74A02}.Release|x64.Build.0 = Release|x64
+		{6C9C1C10-302A-4AF1-BEDA-6F7A76F74A02}.Release|x86.ActiveCfg = Release|Win32
+		{6C9C1C10-302A-4AF1-BEDA-6F7A76F74A02}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

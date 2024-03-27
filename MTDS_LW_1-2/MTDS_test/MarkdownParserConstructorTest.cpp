@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "MarkdownParser.h"
 #include "gtest/gtest.h"
 
