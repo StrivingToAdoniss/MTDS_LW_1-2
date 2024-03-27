@@ -20,7 +20,7 @@ env:
   # https://docs.github.com/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
   BUILD_CONFIGURATION: Release
 
-  TEST_PROJECT_PATH: MTDS_LW_1-2/MTDS_test/MTDS_test.vcxproj
+  #TEST_PROJECT_PATH: MTDS_LW_1-2/MTDS_test/MTDS_test.vcxproj
   TEST_EXECUTABLE_PATH: MTDS_LW_1-2/x64/Release/MTDS_test.exe
 
 permissions:
