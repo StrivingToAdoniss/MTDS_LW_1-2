@@ -18,7 +18,7 @@ TEST(MarkdownParserTest, BoldTextToASCI) {
 TEST(MarkdownParserTest, ItalicTextToHTML) {
     MarkdownParser parser("HTML");
     std::string markdown = "_italic_";
-    std::string expectedHtml = "<em>itali</em>";
+    std::string expectedHtml = "<em>italic</em>";
     ASSERT_EQ(parser.Parse(markdown), expectedHtml);
 }
 
